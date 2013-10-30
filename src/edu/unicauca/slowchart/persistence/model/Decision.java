@@ -13,13 +13,13 @@ import java.util.List;
 public class Decision {
 	private String name;
 	private Long id;
-	private List<String> process;
+	private String process;
 	
 	public Decision() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Decision(String name, Long id, List<String> process) {
+	public Decision(String name, Long id, String process) {
 		super();
 		this.name = name;
 		this.id = id;
@@ -37,10 +37,10 @@ public class Decision {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public List<String> getProcess() {
+	public String getProcess() {
 		return process;
 	}
-	public void setProcess(List<String> process) {
+	public void setProcess(String process) {
 		this.process = process;
 	}
 	

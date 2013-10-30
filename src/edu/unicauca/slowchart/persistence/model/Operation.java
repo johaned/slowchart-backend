@@ -12,7 +12,7 @@ import java.util.List;
 public class Operation {
 	private String name;
 	private Long id;
-	private List<String> process;
+	private String process;
 	private String previous_node;
 	private String next_node;
 	
@@ -20,7 +20,7 @@ public class Operation {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Operation(String name, Long id, List<String> process,
+	public Operation(String name, Long id, String process,
 			String previous_node, String next_node) {
 		super();
 		this.name = name;
@@ -41,10 +41,10 @@ public class Operation {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public List<String> getProcess() {
+	public String getProcess() {
 		return process;
 	}
-	public void setProcess(List<String> process) {
+	public void setProcess(String process) {
 		this.process = process;
 	}
 	public String getPrevious_node() {
