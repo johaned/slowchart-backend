@@ -1,8 +1,6 @@
 package edu.unicauca.slowchart.persistence.conn;
 
-import java.io.WriteAbortedException;
 import java.net.UnknownHostException;
-
 import com.mongodb.AggregationOutput;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
