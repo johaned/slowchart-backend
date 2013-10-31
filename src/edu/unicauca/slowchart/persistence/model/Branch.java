@@ -32,6 +32,14 @@ public class Branch {
 		this.route_for_true = route_for_true;
 		this.route_for_false = route_for_false;
 	}
+	
+	public boolean is_root(){
+		if(this.parent=="root")
+			return true;
+		else
+			return false;
+	}
+	
 	public Long getId() {
 		return id;
 	}
