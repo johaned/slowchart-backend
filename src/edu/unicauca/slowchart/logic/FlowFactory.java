@@ -54,7 +54,7 @@ public class FlowFactory {
 		Iterator<HashMap<String, String>> i = branches.iterator();
 		while(i.hasNext()){
 			branch_container = i.next();
-			create_branch(Long.parseLong(branch_container.get("id")), branch_container.get("parent"), branch_container.get("operation"), branch_container.get("decision"), branch_container.get("route_for_true"), branch_container.get("route_for_false"));
+			bdbl.add(create_branch(Long.parseLong(branch_container.get("id")), branch_container.get("parent"), branch_container.get("operation"), branch_container.get("decision"), branch_container.get("route_for_true"), branch_container.get("route_for_false")));
 		}
 		
 		return bdbl;
