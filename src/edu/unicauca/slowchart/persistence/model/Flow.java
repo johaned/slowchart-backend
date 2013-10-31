@@ -1,5 +1,6 @@
 package edu.unicauca.slowchart.persistence.model;
 
+import java.util.Iterator;
 import java.util.List;
 /**
  * Flow.java
@@ -25,6 +26,19 @@ public class Flow {
 		this.macro_attribute_id = macro_attribute_id;
 		this.branches = branches;
 	}
+	
+	public Branch get_branch_by_id(Long id){
+		Branch b;
+		Iterator<Branch> i = this.branches.iterator();
+		while(i.hasNext()){
+			b = i.next();
+			if(b.getId() == id){
+				return b;
+			}
+		}
+		return null;
+	}
+	
 	public _Id get_id() {
 		return _id;
 	}
