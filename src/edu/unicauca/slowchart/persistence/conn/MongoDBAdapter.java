@@ -10,22 +10,22 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.WriteResult;
 
-public class MongoDBConnection {
-	private static MongoDBConnection instance;
+public class MongoDBAdapter {
+	private static MongoDBAdapter instance;
 	private MongoClient mc;
 	private DB db;
 	private DBCollection coll;
 	
-	private MongoDBConnection() throws UnknownHostException{
+	private MongoDBAdapter() throws UnknownHostException{
 		mc = new MongoClient();
 		db = mc.getDB("slowchart");
 		coll = db.getCollection("flow");
 		//coll.createIndex(new BasicDBObject("index_test", 1));
 	}
 	
-	public static MongoDBConnection getInstance() throws UnknownHostException{
+	public static MongoDBAdapter getInstance() throws UnknownHostException{
 		if(instance==null){
-			instance = new MongoDBConnection();
+			instance = new MongoDBAdapter();
 		}
 		return instance;
 	}
