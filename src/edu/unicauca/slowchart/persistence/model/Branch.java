@@ -1,5 +1,6 @@
 package edu.unicauca.slowchart.persistence.model;
 
+import java.util.Iterator;
 import java.util.List;
 /**
  * Branch.java
@@ -38,6 +39,18 @@ public class Branch {
 			return true;
 		else
 			return false;
+	}
+	
+	public Operation get_operation_by_id(Long id){
+		Operation o;
+		Iterator<Operation> i = this.operations.iterator();
+		while(i.hasNext()){
+			o = i.next();
+			if(o.getId() == id){
+				return o;
+			}
+		}
+		return null;
 	}
 	
 	public Long getId() {
