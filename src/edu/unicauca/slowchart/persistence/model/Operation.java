@@ -29,6 +29,14 @@ public class Operation {
 		this.previous_node = previous_node;
 		this.next_node = next_node;
 	}
+	
+	public boolean is_root(){
+		if(this.previous_node=="root")
+			return true;
+		else
+			return false;
+	}
+	
 	public String getName() {
 		return name;
 	}
