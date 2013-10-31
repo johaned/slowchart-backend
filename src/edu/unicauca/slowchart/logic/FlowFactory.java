@@ -46,7 +46,7 @@ public class FlowFactory {
 		branch_container.put("id", "3");
 		branch_container.put("operation", "5*{1e456ef8456a46b6c4}-2*{1e456ef8456a46b6c5}");
 		branch_container.put("decision", "({operation_result}>10 && {operation_result}<20");
-		branch_container.put("route_for_true", "end");
+		branch_container.put("route_for_true", "alert");
 		branch_container.put("route_for_false", "");
 		branches.add(branch_container);
 		
