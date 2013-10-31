@@ -1,6 +1,5 @@
 package edu.unicauca.slowchart.main;
 
-import java.io.ObjectInputStream.GetField;
 import java.net.UnknownHostException;
 
 import com.mongodb.BasicDBObject;
@@ -25,7 +24,7 @@ public class Main {
 		bdbo = FlowFactory.create_flow();
 		// -- Saves test flow
 		System.out.println(mdbc.insert_doc(bdbo));
-		
+
 		// -- Simulates interpreting flow process
 		// - Inspects how many documents exist
 		mdbc.see_all_doc_by_coll();
@@ -35,7 +34,7 @@ public class Main {
 			f = Parser.to_convert_object((BasicDBObject) c.next());
 			Log.print(f.getBranches().iterator().next().getRoute_for_true());
 		}
-		
+
 	}
 
 }
