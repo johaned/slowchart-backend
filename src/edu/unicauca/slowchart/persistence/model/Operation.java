@@ -31,7 +31,7 @@ public class Operation {
 	}
 	
 	public boolean is_root(){
-		if(this.previous_node=="root")
+		if(this.previous_node.equals("root"))
 			return true;
 		else
 			return false;

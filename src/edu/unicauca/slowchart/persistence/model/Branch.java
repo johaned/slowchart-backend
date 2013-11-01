@@ -35,7 +35,7 @@ public class Branch {
 	}
 	
 	public boolean is_root(){
-		if(this.parent=="root")
+		if(this.parent.equals("root"))
 			return true;
 		else
 			return false;
