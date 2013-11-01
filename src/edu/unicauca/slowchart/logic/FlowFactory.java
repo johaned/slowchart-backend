@@ -27,25 +27,25 @@ public class FlowFactory {
 		branch_container.put("parent", "root");
 		branch_container.put("id", "1");
 		branch_container.put("operation", "");
-		branch_container.put("decision", "({1e456ef8456a46b6c6} == 'MPEG4'");
+		branch_container.put("decision", "{1e456ef8456a46b6c6} == 'MPEG4'");
 		branch_container.put("route_for_true", "2");
 		branch_container.put("route_for_false", "noalert");
 		branches.add(branch_container);
 		// second branch
 		branch_container = new HashMap<String, String>();
-		branch_container.put("parent", "root");
+		branch_container.put("parent", "1");
 		branch_container.put("id", "2");
 		branch_container.put("operation", "((7+{1e456ef8456a46b6c1})/15)+8*{1e456ef8456a46b6c2}-10*{1e456ef8456a46b6c3}");
-		branch_container.put("decision", "({operation_result}>5 && {operation_result}<10");
+		branch_container.put("decision", "{operation_result}>5 && {operation_result}<10");
 		branch_container.put("route_for_true", "noalert");
 		branch_container.put("route_for_false", "3");
 		branches.add(branch_container);
 		// third branch
 		branch_container = new HashMap<String, String>();
-		branch_container.put("parent", "root");
+		branch_container.put("parent", "2");
 		branch_container.put("id", "3");
 		branch_container.put("operation", "5*{1e456ef8456a46b6c4}-2*{1e456ef8456a46b6c5}");
-		branch_container.put("decision", "({operation_result}>10 && {operation_result}<20");
+		branch_container.put("decision", "{operation_result}>10 && {operation_result}<20");
 		branch_container.put("route_for_true", "alert");
 		branch_container.put("route_for_false", "noalert");
 		branches.add(branch_container);
@@ -74,13 +74,16 @@ public class FlowFactory {
 	private static BasicDBList create_operations_group(String operation) {
 		BasicDBList bdbl = new BasicDBList();
 		// it creates just one operation
-		BasicDBObject bdbo = new BasicDBObject();
-		bdbo.put("id", 1);
-		bdbo.put("name", "My operation");
-		bdbo.put("process", operation);
-		bdbo.put("previous_node", "root");
-		bdbo.put("next_node", "end");
-		bdbl.add(bdbo);
+		if(!operation.equals("")){
+			BasicDBObject bdbo = new BasicDBObject();
+			bdbo.put("id", 1);
+			bdbo.put("name", "My operation");
+			bdbo.put("process", operation);
+			bdbo.put("previous_node", "root");
+			bdbo.put("next_node", "end");
+			bdbl.add(bdbo);
+		}
+		
 		return bdbl;
 	}
 	
