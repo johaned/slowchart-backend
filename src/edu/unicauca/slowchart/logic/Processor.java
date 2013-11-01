@@ -1,10 +1,14 @@
 package edu.unicauca.slowchart.logic;
 
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
+import edu.unicauca.slowchart.miscellaneus.Log;
 import edu.unicauca.slowchart.persistence.model.Branch;
 import edu.unicauca.slowchart.persistence.model.Decision;
 import edu.unicauca.slowchart.persistence.model.Flow;
@@ -34,8 +38,7 @@ public class Processor {
 			branch = branches_iterator.next();
 			if (branch.is_root())
 				break;
-			else
-				return NOALERT;
+			//*******************************
 		}
 
 		while (true) {
@@ -59,10 +62,9 @@ public class Processor {
 	}
 
 	private String process_branch(Branch branch) {
-		Iterator<Operation> operations_iterator = branch.getOperations()
-				.iterator();
+		Iterator<Operation> operations_iterator = branch.getOperations().iterator();
 		Operation operation = new Operation();
-		Double resultOperation = 0.0;
+		Double operationResult = 0.0;
 		int operationsIterations = 0;
 		String nextNode;
 
@@ -71,16 +73,14 @@ public class Processor {
 				operation = operations_iterator.next();
 				if (operation.is_root())
 					break;
-				else
-					return "noalert";
+				//*******************************
 			}
 
 			while (true) {
-				resultOperation = process_operation(operation, resultOperation);
+				operationResult = process_operation(operation, operationResult);
 				nextNode = operation.getNext_node();
 				if (isNumeric(nextNode)) {
-					operation = branch.get_operation_by_id(Long
-							.parseLong(operation.getNext_node()));
+					operation = branch.get_operation_by_id(Long.parseLong(operation.getNext_node()));
 				} else {
 					break;
 				}
@@ -92,23 +92,80 @@ public class Processor {
 				}
 			}
 		}
-		if (process_decision(branch.getDecision(), resultOperation)){
+		if (process_decision(branch.getDecision(), operationResult)){
 			return branch.getRoute_for_true();
 		}else{
 			return branch.getRoute_for_false();
 		}
 	}
 
-	private Double process_operation(Operation operation,
-			Double transientVariable) {
-		return 0.0;
+	private Double process_operation(Operation operation, Double transientVariable) {
+		if (transientVariable == null){
+			transientVariable = 0.0;
+		}
+		Double result = 0.0;
+		String expression = operation.getProcess();
+		String id;
+		String token;
+		// The Regular expression (Finds {id} tokens)
+	    Pattern pt = Pattern.compile("\\{([^}]*)\\}");
+	    // Match the string with the pattern
+	    Matcher m = pt.matcher(expression);
+	    
+	    while(m.find()){
+	        id = m.group(1); // ID (Get without {})
+	        token = m.group(0); // Expression with {}
+	        if(id.equals("transient_variable")){
+	        	expression = expression.replace(token, transientVariable.toString());
+	        }else{
+	        	expression = expression.replace(token, ca.get_attribute(id).toString());
+	        }
+	    }
+		try {
+			Log.print(expression);
+			result = Double.parseDouble(engine.eval(expression).toString());
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
-	private boolean process_decision(Decision decision, Double resultOperation) {
-		return false;
+	private boolean process_decision(Decision decision, Double operationResult) {
+		if (operationResult == null){
+			operationResult = 0.0;
+		}
+		boolean result = false;
+		String expression = decision.getProcess();
+		String id;
+		String token;
+		// The Regular expression (Finds {id} tokens)
+	    Pattern pt = Pattern.compile("\\{([^}]*)\\}");
+	    // Match the string with the pattern
+	    Matcher m = pt.matcher(expression);
+	    
+	    while(m.find()){
+	        id = m.group(1); // ID (Get without {})
+	        token = m.group(0); // Expression with {}
+	        if(id.equals("operation_result")){
+	        	expression = expression.replace(token, operationResult.toString());
+	        }else{
+	        	expression = expression.replace(token, ca.get_attribute(id).toString());
+	        }
+	    }
+		try {
+			Log.print(expression);
+			result = (Boolean) engine.eval(expression);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
-	public static boolean isNumeric(String str) {
+	private static boolean isNumeric(String str) {
 		try {
 			double d = Double.parseDouble(str);
 		} catch (NumberFormatException nfe) {
